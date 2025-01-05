@@ -11,32 +11,38 @@ function Square({
   pos,
   onAddMove,
   hasWinner,
-  showAnimation,
+  showWinningAnimation,
 }: {
   occupiedBy: Player | undefined;
   pos: number;
   onAddMove: (pos: number) => void;
   hasWinner: boolean;
-  showAnimation: boolean;
+  showWinningAnimation: boolean;
 }) {
   const disabled = occupiedBy !== undefined || hasWinner;
 
   return (
     <button
-      className={`text-4xl h-full w-full border-[1px] border-slate-500 bg-[#faebd7] font-black disabled:cursor-not-allowed transition ease-in-out duration-150 not-disabled:hover:scale-110 not-disabled:hover:border-slate-400 not-disabled:hover:bg-[#f2e2ce]`}
+      className={`text-4xl h-full w-full border-[1px] border-slate-500 bg-[#faebd7] font-black disabled:cursor-not-allowed transition ease-in-out duration-150 not-disabled:hover:scale-110 not-disabled:hover:border-slate-400 not-disabled:hover:bg-[#f2e2ce] ${
+        showWinningAnimation && "bg-[#eeddc9]"
+      }`}
       onClick={() => onAddMove(pos)}
       disabled={disabled}
     >
       {occupiedBy && (
-        <span
-          className={`text-transparent bg-gradient-to-tr	${
-            occupiedBy && textGradient[occupiedBy]
-          } [-webkit-background-clip:text] ${
-            showAnimation && "animate-winnerJump"
-          }`}
+        <div
+          className={
+            showWinningAnimation ? "animate-winnerJump" : "animate-appearBounce"
+          }
         >
-          {occupiedBy}
-        </span>
+          <span
+            className={`text-transparent bg-gradient-to-tr	${
+              occupiedBy && textGradient[occupiedBy]
+            } [-webkit-background-clip:text]`}
+          >
+            {occupiedBy}
+          </span>
+        </div>
       )}
     </button>
   );
@@ -88,7 +94,7 @@ export function Board({
             pos={pos}
             onAddMove={onAddMove}
             hasWinner={hasWinner}
-            showAnimation={winSquares?.includes(pos)}
+            showWinningAnimation={winSquares?.includes(pos)}
           />
         );
       })}

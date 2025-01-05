@@ -47,7 +47,7 @@ export default tseslint.config({
   },
 });
 
-// TODO: figure out
+// TODO:
 
 // "eslintConfig": {
 //     "root": true,

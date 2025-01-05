@@ -67,6 +67,8 @@ function App() {
     }
   }
 
+  const isDrawGame = currentBoardLayout.length === boardSize ** 2 && !hasWinner;
+
   /**
    * Called when new move is added
    */
@@ -117,7 +119,7 @@ function App() {
     <div className={`w-screen h-screen`}>
       <div
         className={`gradientBackDrop bg-gradient-to-r from-playerX1 to-playerX2 ${
-          (winner ? winner === Player.X : player === Player.X)
+          !isDrawGame && (winner ? winner === Player.X : player === Player.X)
             ? "opacity-100"
             : "opacity-0"
         } `}
@@ -125,13 +127,25 @@ function App() {
 
       <div
         className={`gradientBackDrop bg-gradient-to-r from-playerO1 to-playerO2 ${
-          (winner ? winner === Player.O : player === Player.O)
+          !isDrawGame && (winner ? winner === Player.O : player === Player.O)
             ? "opacity-100"
             : "opacity-0"
         } `}
       />
+
+      <div
+        className={`gradientBackDrop bg-gradient-to-r from-slate-400 to-slate-200 ${
+          isDrawGame ? "opacity-100" : "opacity-0"
+        } `}
+      />
+
       <div className="flex flex-col items-center justify-center h-full">
-        <PlayerAnnounce player={player} hasWinner={hasWinner} winner={winner} />
+        <PlayerAnnounce
+          player={player}
+          hasWinner={hasWinner}
+          winner={winner}
+          isDrawGame={isDrawGame}
+        />
         <div className="h-[3%]" />
         <History
           currentStep={currentStep}

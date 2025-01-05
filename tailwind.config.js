@@ -12,6 +12,7 @@ export default {
       },
       animation: {
         winnerJump: "winnerJump infinite 1s",
+        appearBounce: "appearBounce ease 300ms",
       },
       keyframes: {
         winnerJump: {
@@ -22,6 +23,20 @@ export default {
           "50%": {
             transform: "translateY(0)",
             "animation-timing-function": "cubic-bezier(0,0,0.2,1)",
+          },
+        },
+        appearBounce: {
+          "0%": {
+            transform: "scale(0)",
+            // "animation-timing-function": "cubic-bezier(0.8,0,1,1)",
+          },
+          "70%": {
+            transform: "scale(1.2)",
+            // "animation-timing-function": "cubic-bezier(0,0,0.2,1)",
+          },
+          "100%": {
+            transform: "scale(1)",
+            // "animation-timing-function": "cubic-bezier(0,0,0.2,1)",
           },
         },
       },
