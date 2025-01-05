@@ -1,173 +1,9 @@
 import { useMemo, useState } from "react";
-// import "./App.scss";
-import styles from "./App.module.scss";
-
-enum Player {
-  X = "X",
-  O = "O",
-}
-const boardSizeRange = [3, 4, 5, 6, 7];
-
-// Player Announcement
-function PlayerAnnounce({
-  player,
-  hasWinner,
-  winner,
-}: {
-  player: Player;
-  hasWinner: boolean;
-  winner: Player | undefined;
-}) {
-  return (
-    <div className={styles.playerAnnounce}>
-      {hasWinner ? (
-        <>
-          <span>WE HAVE A WINNER:</span>
-          <span>{winner} !</span>
-        </>
-      ) : (
-        <>
-          <span>Next Player:</span>
-          <span>{player}</span>
-        </>
-      )}
-    </div>
-  );
-}
-
-// Individual Square
-function Square({
-  occupiedBy,
-  pos,
-  onAddMove,
-  hasWinner,
-}: {
-  occupiedBy: Player | undefined;
-  pos: number;
-  onAddMove: (pos: number) => void;
-  hasWinner: boolean;
-}) {
-  return (
-    <button
-      className={styles.square}
-      onClick={() => onAddMove(pos)}
-      disabled={occupiedBy !== undefined || hasWinner}
-    >
-      {occupiedBy}
-    </button>
-  );
-}
-
-// Board = 9 * Square
-function Board({
-  boardSize,
-  currentBoardLayout,
-  onAddMove,
-  hasWinner,
-}: {
-  onAddMove: (pos: number) => void;
-  boardSize: number;
-  currentBoardLayout: number[];
-  hasWinner: boolean;
-}) {
-  const board = Array.from({ length: boardSize ** 2 });
-
-  return (
-    <div className={styles[`board_size_${boardSize}`]}>
-      {board.map((_, pos) => {
-        const indexInLayout = currentBoardLayout.indexOf(pos);
-
-        const occupiedBy =
-          indexInLayout === -1
-            ? undefined
-            : indexInLayout % 2 === 0
-            ? Player.X
-            : Player.O;
-
-        return (
-          <Square
-            key={pos}
-            occupiedBy={occupiedBy}
-            pos={pos}
-            onAddMove={onAddMove}
-            hasWinner={hasWinner}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-// Game History
-function History({
-  currentStep,
-  allSteps,
-  onClickRestart,
-  onClickLeft,
-  onClickRight,
-  onManualStepChange,
-}: {
-  currentStep: number;
-  allSteps: number;
-  onClickRestart: () => void;
-  onClickLeft: () => void;
-  onClickRight: () => void;
-  onManualStepChange: (input: number) => void;
-}) {
-  return (
-    <>
-      <button onClick={onClickRestart}>Restart</button>
-      <div>
-        <button onClick={onClickLeft} disabled={currentStep === 0}>
-          Left
-        </button>
-
-        <select
-          id="currentStep"
-          value={currentStep}
-          onChange={(e) => onManualStepChange(Number(e.target.value))}
-          disabled={allSteps === 0}
-        >
-          {Array.from({ length: allSteps + 1 }).map((_, index) => (
-            <option key={index} value={index}>
-              {index}
-            </option>
-          ))}
-        </select>
-
-        <button onClick={onClickRight} disabled={currentStep === allSteps}>
-          Right
-        </button>
-      </div>
-    </>
-  );
-}
-
-// Board Size Selector Dropdown
-function BoardSizeSelector({
-  boardSize,
-  onBoardSizeChange,
-}: {
-  boardSize: number;
-  onBoardSizeChange: (bs: number) => void;
-}) {
-  return (
-    <div>
-      <label htmlFor="boardSizeDropDown">Board Size</label>
-      <select
-        id="boardSizeDropDown"
-        value={boardSize}
-        onChange={(e) => onBoardSizeChange(Number(e.target.value))}
-      >
-        {boardSizeRange.map((bs) => (
-          <option key={bs} value={bs}>
-            {bs}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-}
+import { Player } from "./utilities.tsx";
+import { Board } from "./components/Board.tsx";
+import { History } from "./components/History.tsx";
+import { PlayerAnnounce } from "./components/PlayerAnnounce.tsx";
+import { BoardSizeSelector } from "./components/BoardSizeSelector.tsx";
 
 // calculate all winning cases
 function calculateWinningCases(boardSize: number) {
@@ -208,22 +44,25 @@ function App() {
 
   //  calculate winner
   let hasWinner = false;
-  let winner = undefined;
+  let winner: Player | undefined = undefined;
+  let winSquares: number[] = [];
   const playerXMoves = new Set(
-    currentBoardLayout.filter((value, index) => index % 2 === 0)
+    currentBoardLayout.filter((_, index) => index % 2 === 0)
   );
   const playerOMoves = new Set(
-    currentBoardLayout.filter((value, index) => index % 2 === 1)
+    currentBoardLayout.filter((_, index) => index % 2 === 1)
   );
 
   for (const wincase of winningCases) {
     if (wincase.every((pos) => playerXMoves.has(pos))) {
       hasWinner = true;
       winner = Player.X;
+      winSquares = wincase;
       break;
     } else if (wincase.every((pos) => playerOMoves.has(pos))) {
       hasWinner = true;
       winner = Player.O;
+      winSquares = wincase;
       break;
     }
   }
@@ -275,9 +114,25 @@ function App() {
   }
 
   return (
-    <div className={styles.app}>
-      <div className={styles.leftContainer}>
+    <div className={`w-screen h-screen`}>
+      <div
+        className={`gradientBackDrop bg-gradient-to-r from-playerX1 to-playerX2 ${
+          (winner ? winner === Player.X : player === Player.X)
+            ? "opacity-100"
+            : "opacity-0"
+        } `}
+      />
+
+      <div
+        className={`gradientBackDrop bg-gradient-to-r from-playerO1 to-playerO2 ${
+          (winner ? winner === Player.O : player === Player.O)
+            ? "opacity-100"
+            : "opacity-0"
+        } `}
+      />
+      <div className="flex flex-col items-center justify-center h-full">
         <PlayerAnnounce player={player} hasWinner={hasWinner} winner={winner} />
+        <div className="h-[3%]" />
         <History
           currentStep={currentStep}
           allSteps={boardHistory.length}
@@ -286,14 +141,17 @@ function App() {
           onClickRight={handleClickRight}
           onManualStepChange={handleStepTextChange}
         />
+        <div className="h-[5%]" />
         <Board
           boardSize={boardSize}
           currentBoardLayout={currentBoardLayout}
           onAddMove={addMove}
           hasWinner={hasWinner}
+          winSquares={winSquares}
         />
       </div>
-      <div className={styles.rightContainer}>
+
+      <div className="absolute top-0 right-0 mt-6 mr-6">
         <BoardSizeSelector
           boardSize={boardSize}
           onBoardSizeChange={changeBoardSize}

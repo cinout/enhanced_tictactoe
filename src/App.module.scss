@@ -1,90 +1,67 @@
-@use "sass:math";
-$sqaure_size: 70px;
+// .testAnimation {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   z-index: -1;
 
-.app {
-  box-sizing: border-box;
-  background-image: linear-gradient(
-    90deg,
-    rgb(110, 169, 203),
-    rgb(148, 213, 184)
-  );
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
+//   transition: opacity 500ms ease-in-out;
+// }
 
-.leftContainer {
-  display: inline-block;
-}
+// .testAnimation.playerX {
+//   background-image: linear-gradient(90deg, #6ea9cb, #94d5b8);
+// }
 
-.rightContainer {
-  display: inline-block;
-}
+// .testAnimation.playerO {
+//   background-image: linear-gradient(90deg, #ffc4aa, #f1dfa1);
+// }
 
-.playerAnnounce {
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: 900;
-}
+// .active {
+//   opacity: 1;
+// }
+// .hidden {
+//   opacity: 0;
+// }
 
-.playerAnnounce span:nth-of-type(2) {
-  font-size: 1.5rem;
-  margin-left: 1rem;
-}
+// $sqaure_size: 70px;
 
-.square {
-  background-color: antiquewhite;
-  font-size: 2rem;
-  font-weight: 900;
-  height: 100%;
-  width: 100%;
-  border: 1px solid black;
-  /* grid-area: square; */
-  cursor: pointer;
-}
-.square:disabled {
-  color: black;
-  cursor: not-allowed;
-}
+// @mixin board_geometry($size) {
+//   grid-template-columns: repeat($size, 1fr);
+//   grid-template-rows: repeat($size, 1fr);
+//   width: $size * $sqaure_size;
+//   height: $size * $sqaure_size;
+// }
 
-@mixin board_geometry($size) {
-  grid-template-columns: repeat($size, 1fr);
-  grid-template-rows: repeat($size, 1fr);
-  width: $size * $sqaure_size;
-  height: $size * $sqaure_size;
-}
+// %board {
+//   display: grid;
+//   background-color: #e9967a;
+//   justify-items: center;
+//   align-items: center;
+//   padding: 10px;
+// }
 
-%board {
-  display: grid;
-  background-color: darksalmon;
-  justify-items: center;
-  align-items: center;
-  padding: 10px;
-}
+// .board_size_3 {
+//   @extend %board;
+//   @include board_geometry(3);
+// }
 
-.board_size_3 {
-  @extend %board;
-  @include board_geometry(3);
-}
+// .board_size_4 {
+//   @extend %board;
+//   @include board_geometry(4);
+// }
 
-.board_size_4 {
-  @extend %board;
-  @include board_geometry(4);
-}
+// .board_size_5 {
+//   @extend %board;
+//   @include board_geometry(5);
+// }
 
-.board_size_5 {
-  @extend %board;
-  @include board_geometry(5);
-}
+// .board_size_6 {
+//   @extend %board;
+//   @include board_geometry(6);
+// }
 
-.board_size_6 {
-  @extend %board;
-  @include board_geometry(6);
-}
-
-.board_size_7 {
-  @extend %board;
-  @include board_geometry(7);
-}
+// .board_size_7 {
+//   @extend %board;
+//   @include board_geometry(7);
+// }
