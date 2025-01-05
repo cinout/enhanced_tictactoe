@@ -4,6 +4,11 @@
 
 This is an UI/UX-enhanced version of the tic-tac-toe game presented in ReactJS's doc. I used this project to practice using **TailwindCSS** to add personal styles and animations to the game, and using **Vite** to scaffold a React+TS project.
 
+## 🏃‍➡️ How to Run
+
+- Use `npm install` to install required packages.
+- Use `npm run dev` to start the game.
+
 ## 🥞 Tech Stack
 
 - **Bundler**: Vite
@@ -27,8 +32,3 @@ This is an UI/UX-enhanced version of the tic-tac-toe game presented in ReactJS's
 - [ ] Attach current player's icon to the cursor.
 - [ ] When player wins, show some flying player icons in the background.
 - [ ] When moves are reversed, apply the reverse animation onto the squares.
-
-## 🏃‍➡️ How to Run
-
-- Use `npm install` to install required packages.
-- Use `npm run dev` to start the game.
