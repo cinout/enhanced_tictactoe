@@ -1,23 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc"; // enables JSX and React Fast Refresh
-// import eslint from "vite-plugin-eslint"; // fix this
+import eslint from "vite-plugin-eslint"; // Vite does not run ESLint by default during development. Install this to enforce linting during dev and build
 
-// TODO:
-// https://vite.dev/config/
+// Doc: https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    // eslint({
-    //   include: ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
-    //   emitWarning: true, // Shows warnings in terminal
-    //   emitError: true, // Shows errors in terminal
-    // }),
+    eslint({
+      include: ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"], // files to lint
+      emitWarning: true, // Shows warnings in terminal
+      emitError: true, // Shows errors in terminal
+    }),
   ],
-  // resolve: {
-  //   alias: {
-  //     "@": path.resolve(__dirname, "./src"),
-  //   },
-  // },
   server: {
     port: 3000,
     open: true,

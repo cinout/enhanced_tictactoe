@@ -19,11 +19,11 @@ export default tseslint.config({
   ],
   files: ["**/*.{ts,tsx}"],
   languageOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2021,
     globals: globals.browser,
     parserOptions: {
-      // [from project] If you are developing a production application, we recommend updating the configuration to enable type aware lint rules
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
+      project: "./tsconfig.json",
+      sourceType: "module",
       tsconfigRootDir: import.meta.dirname,
     },
   },
@@ -47,7 +47,7 @@ export default tseslint.config({
   },
 });
 
-// TODO:
+// TODO: learn FLAT config
 
 // "eslintConfig": {
 //     "root": true,
@@ -70,11 +70,7 @@ export default tseslint.config({
 //     },
 
 //     "parser": "@typescript-eslint/parser",
-//     "parserOptions": {
-//       "project": "./tsconfig.json",
-//       "ecmaVersion": 2021,
-//       "sourceType": "module"
-//     },
+
 //     "plugins": [
 //       "react",
 //       "jsx-a11y",
